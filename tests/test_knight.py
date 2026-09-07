@@ -60,3 +60,19 @@ def test_knight_can_jump_over_pieces():
     ]
     assert len(moves) == len(expected_moves)
     assert set(moves) == set(expected_moves)
+
+
+def test_knight_cannot_leave_the_board():
+    # Arrange
+    board = Board.empty()
+    knight = Knight(Player.WHITE)
+    square = Square.at(7, 7)
+    board.set_piece(square, knight)
+
+    # Act
+    moves = knight.get_available_moves(board)
+
+    # Assert
+    expected_moves = [Square.at(5, 6), Square.at(6, 5)]
+    assert len(moves) == len(expected_moves)
+    assert set(moves) == set(expected_moves)
