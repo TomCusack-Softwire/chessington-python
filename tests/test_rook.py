@@ -68,3 +68,40 @@ def test_rook_is_blocked_by_enemy_pieces():
 
     # Assert
     assert Square.at(0, 5) not in moves
+
+
+def test_rook_can_capture_enemy_pieces():
+    # Arrange
+    board = Board.empty()
+    rook = Rook(Player.WHITE)
+    square = Square.at(2, 5)
+    board.set_piece(square, rook)
+
+    enemy = Pawn(Player.BLACK)
+    enemy_square = Square.at(6, 5)
+    board.set_piece(enemy_square, enemy)
+
+    # Act
+    moves = rook.get_available_moves(board)
+
+    # Assert
+    assert enemy_square in moves
+
+
+
+def test_rook_cannot_capture_friendly_pieces():
+    # Arrange
+    board = Board.empty()
+    rook = Rook(Player.WHITE)
+    square = Square.at(2, 5)
+    board.set_piece(square, rook)
+
+    friendly = Pawn(Player.WHITE)
+    friendly_square = Square.at(6, 5)
+    board.set_piece(friendly_square, friendly)
+
+    # Act
+    moves = rook.get_available_moves(board)
+
+    # Assert
+    assert friendly_square not in moves
