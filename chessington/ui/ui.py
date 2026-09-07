@@ -4,7 +4,6 @@ A GUI chess board that can be interacted with, and pieces moved around on.
 
 import tkinter as tk
 from collections.abc import Callable
-from typing import List, Optional
 
 from chessington.engine.board import BOARD_SIZE, Board
 from chessington.engine.data import Square
@@ -18,17 +17,21 @@ images = ImageRepository()
 
 def get_square_colour(square: Square) -> Colour:
     """Determine the background colour of a square (checkerboard pattern)"""
-    return Colour.BLACK_SQUARE if square.row % 2 == square.col % 2 else Colour.WHITE_SQUARE
+    return (
+        Colour.BLACK_SQUARE if square.row % 2 == square.col % 2 else Colour.WHITE_SQUARE
+    )
 
 
-def update_square(window: tk.Tk, board: Board, square: Square, colour: Optional[Colour] = None) -> None:
+def update_square(
+    window: tk.Tk, board: Board, square: Square, colour: Colour | None = None
+) -> None:
     """Re-draw the Square, optionally setting a non-standard background colour"""
     piece = board.get_piece(square)
     colour = colour or get_square_colour(square)
     image = images.get_image(piece, colour)
 
     frame = window.nametowidget(square_id(square))
-    btn = frame.nametowidget('button')
+    btn = frame.nametowidget("button")
     btn.configure(image=image)
     btn.image = image
 
@@ -40,7 +43,9 @@ def update_pieces_and_colours(window: tk.Tk, board: Board) -> None:
             update_square(window, board, Square(row, col))
 
 
-def highlight_squares(window: tk.Tk, board: Board, from_square: Optional[Square], to_squares: List[Square]) -> None:
+def highlight_squares(
+    window: tk.Tk, board: Board, from_square: Square | None, to_squares: list[Square]
+) -> None:
     """Set background colours on active movement squares"""
     if from_square is not None:
         update_square(window, board, from_square, Colour.FROM_SQUARE)
@@ -50,13 +55,13 @@ def highlight_squares(window: tk.Tk, board: Board, from_square: Optional[Square]
 
 def square_id(square: Square) -> str:
     """Generate a tkinter-suitable name for a square"""
-    return f'square@{square.row}{square.col}'
+    return f"square@{square.row}{square.col}"
 
 
 def play_game() -> None:
     """Launch Chessington!"""
     window = tk.Tk()
-    window.title('Chessington')
+    window.title("Chessington")
     window.resizable(False, False)
     board = Board.at_starting_position()
 
@@ -77,7 +82,10 @@ def play_game() -> None:
                 from_square, to_squares = None, []
 
             # If clicking on a piece whose turn it is, get its allowed moves
-            elif clicked_piece is not None and clicked_piece.player == board.current_player:
+            elif (
+                clicked_piece is not None
+                and clicked_piece.player == board.current_player
+            ):
                 from_square = clicked_square
                 to_squares = clicked_piece.get_available_moves(board)
 
@@ -94,10 +102,12 @@ def play_game() -> None:
     for row in range(BOARD_SIZE):
         for col in range(BOARD_SIZE):
             square = Square(row, col)
-            frame = tk.Frame(window, width=WINDOW_SIZE, height=WINDOW_SIZE, name=square_id(square))
-            frame.grid_propagate(False)         # disables resizing of frame
+            frame = tk.Frame(
+                window, width=WINDOW_SIZE, height=WINDOW_SIZE, name=square_id(square)
+            )
+            frame.grid_propagate(False)  # disables resizing of frame
             frame.columnconfigure(0, weight=1)  # enables button to fill frame
-            frame.rowconfigure(0, weight=1)     # any positive number is OK
+            frame.rowconfigure(0, weight=1)  # any positive number is OK
 
             # The board has (0, 0) in the bottom left.
             # TKinter Grid has (0, 0) in the top left.
@@ -105,9 +115,10 @@ def play_game() -> None:
             gui_row = BOARD_SIZE - square.row - 1
             frame.grid(row=gui_row, column=square.col)
 
-            btn = tk.Button(frame, command=generate_click_handler(square), name='button')
-            btn.grid(sticky='wens')
+            btn = tk.Button(
+                frame, command=generate_click_handler(square), name="button"
+            )
+            btn.grid(sticky="wens")
 
     update_pieces_and_colours(window, board)
     window.mainloop()
-

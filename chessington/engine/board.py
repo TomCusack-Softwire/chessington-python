@@ -1,19 +1,18 @@
 """
-A module providing a representation of a chess board. The rules of chess are not implemented - 
+A module providing a representation of a chess board. The rules of chess are not implemented -
 this is just a "dumb" board that will let you move pieces around as you like.
 """
 
-from typing import TYPE_CHECKING, List, Optional
-
 from chessington.engine.data import Player, Square
-from chessington.engine.pieces import Bishop, King, Knight, Pawn, Queen, Rook, Piece
+from chessington.engine.pieces import Bishop, King, Knight, Pawn, Piece, Queen, Rook
 
-BoardType = List[List[Optional[Piece]]]
+BoardType = list[list[Piece | None]]
 BOARD_SIZE = 8
 
 
 class MissingPiece(Exception):
     pass
+
 
 class Board:
     """
@@ -47,19 +46,28 @@ class Board:
         board[6] = [Pawn(Player.BLACK) for _ in range(BOARD_SIZE)]
 
         # Setup the rows of pieces
-        piece_row: List[type[Piece]] = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-        board[0] = list(map(lambda piece: piece(Player.WHITE), piece_row))
-        board[7] = list(map(lambda piece: piece(Player.BLACK), piece_row))
+        piece_row: list[type[Piece]] = [
+            Rook,
+            Knight,
+            Bishop,
+            Queen,
+            King,
+            Bishop,
+            Knight,
+            Rook,
+        ]
+        board[0] = [piece(Player.WHITE) for piece in piece_row]
+        board[7] = [piece(Player.BLACK) for piece in piece_row]
 
         return board
 
-    def set_piece(self, square: Square, piece: Optional[Piece]) -> None:
+    def set_piece(self, square: Square, piece: Piece | None) -> None:
         """
         Places the piece at the given position on the board.
         """
         self.board[square.row][square.col] = piece
 
-    def get_piece(self, square: Square) -> Optional[Piece]:
+    def get_piece(self, square: Square) -> Piece | None:
         """
         Retrieves the piece from the given square of the board.
         """
@@ -73,7 +81,7 @@ class Board:
             for col in range(BOARD_SIZE):
                 if self.board[row][col] is piece_to_find:
                     return Square.at(row, col)
-        raise MissingPiece('The supplied piece is not on the board')
+        raise MissingPiece("The supplied piece is not on the board")
 
     def move_piece(self, from_square: Square, to_square: Square) -> None:
         """
@@ -84,3 +92,12 @@ class Board:
             self.set_piece(to_square, moving_piece)
             self.set_piece(from_square, None)
             self.current_player = self.current_player.opponent()
+
+    def square_in_bounds(self, square: Square) -> bool:
+        return 0 <= square.row < BOARD_SIZE and 0 <= square.col < BOARD_SIZE
+
+    def square_is_empty(self, square: Square) -> bool:
+        return self.get_piece(square) is None
+
+    def square_is_occupied(self, square: Square) -> bool:
+        return not self.square_is_empty(square)
