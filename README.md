@@ -2,6 +2,15 @@
 
 Starter project for a chess-based TDD exercise.
 
+Brief:
+
+> We've started work on the Chessington app! The UX Team came up with a novel interface, and we've built the game engine and GUI. Problem is, Geoff is the only one who knows the rules of chess and he's gone for a really long lunch. We haven't been able to finish the job without him. That's where you come in.  
+> Start with the simple pieces and we'll go from there. Management recently signed off a TDD approach so let's try that out. Work in pairs to keep that knowledge sharing up. Hopefully that'll reduce our dependence on Geoff in future…
+
+Fork and clone this repo, then follow the instructions in [README.md](./README.md) to get the app and tests running.
+
+**Make sure you copy all branches and tags, not just the master branch when you fork on GitHub.**
+
 ## Running the application
 
 To run the application, first ensure that you have installed Poetry on your system. Install
@@ -34,10 +43,8 @@ Tcl/Tk separately, or download an official Python distribution for use on this c
 
 Mac users can check out <https://www.python.org/download/mac/tcltk/> for further details.
 
-### Note for WSL users
 
-Sadly, WSL does not support GUIs, so this application will not work from a WSL terminal. Sorry :(
+# Guide to the code
 
-## During the Workshop
+## Board
 
-Once you have the app and tests running start on the [workshop instructions](./during_the_workshop.md).

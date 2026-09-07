@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from chessington.engine.data import Player, Square
 from typing import TYPE_CHECKING, List
+
+from chessington.engine.data import Player, Square
 
 if TYPE_CHECKING:
     from chessington.engine.board import Board
@@ -21,7 +23,7 @@ class Piece(ABC):
         """
         pass
 
-    def move_to(self, board, new_square):
+    def move_to(self, board: Board, new_square: Square) -> None:
         """
         Move this piece to the given square on the board.
         """
@@ -33,14 +35,8 @@ class Pawn(Piece):
     """
     A class representing a chess pawn.
     """
-    def get_available_moves(self, board) -> List[Square]:
-        current_square = board.find_piece(self)
-        if self.player == Player.BLACK:
-            square_in_front = Square.at(current_square.row - 1, current_square.col)
-            return [square_in_front]
-        else:
-            square_in_front = Square.at(current_square.row + 1, current_square.col)
-            return [square_in_front]
+    def get_available_moves(self, board: Board) -> List[Square]:
+        return []
 
 
 class Knight(Piece):
@@ -48,7 +44,7 @@ class Knight(Piece):
     A class representing a chess knight.
     """
 
-    def get_available_moves(self, board):
+    def get_available_moves(self, board: Board) -> List[Square]:
         return []
 
 
@@ -57,7 +53,7 @@ class Bishop(Piece):
     A class representing a chess bishop.
     """
 
-    def get_available_moves(self, board):
+    def get_available_moves(self, board: Board) -> List[Square]:
         return []
 
 
@@ -66,7 +62,7 @@ class Rook(Piece):
     A class representing a chess rook.
     """
 
-    def get_available_moves(self, board):
+    def get_available_moves(self, board: Board) -> List[Square]:
         return []
 
 
@@ -75,7 +71,7 @@ class Queen(Piece):
     A class representing a chess queen.
     """
 
-    def get_available_moves(self, board):
+    def get_available_moves(self, board: Board) -> List[Square]:
         return []
 
 
@@ -84,5 +80,5 @@ class King(Piece):
     A class representing a chess king.
     """
 
-    def get_available_moves(self, board):
+    def get_available_moves(self, board: Board) -> List[Square]:
         return []

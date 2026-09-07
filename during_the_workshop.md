@@ -2,13 +2,6 @@
 
 ## The Brief
 
-> We've started work on the Chessington app! The UX Team came up with a novel interface, and we've built the game engine and GUI. Problem is, Geoff is the only one who knows the rules of chess and he's gone for a really long lunch. We haven't been able to finish the job without him. That's where you come in.  
-> Start with the simple pieces and we'll go from there. Management recently signed off a TDD approach so let's try that out. Work in pairs to keep that knowledge sharing up. Hopefully that'll reduce our dependence on Geoff in future…
-
-Fork and clone this repo, then follow the instructions in [README.md](./README.md) to get the app and tests running.
-
-**Make sure you copy all branches and tags, not just the master branch when you fork on GitHub.**
-
 ## Part 1
 
 When you're ready, run the tests (with `poetry run pytest tests`). You'll notice you have some tests already - but some are failing! Run the unit tests and see what's failed. Working in a pair, implement the minimum functionality required to pass the tests.

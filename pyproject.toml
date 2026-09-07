@@ -5,11 +5,11 @@ description = ""
 authors = ["Sam Cappleman-Lynes <sam.cappleman-lynes@softwire.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-Pillow = "^9.0.0"
+python = ">=3.10,<4.0"
+Pillow = "^12.3.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^6.0"
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.1.1"
 
 [tool.poetry.scripts]
 start = "chessington.ui:play_game"

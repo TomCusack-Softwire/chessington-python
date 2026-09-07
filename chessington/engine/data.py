@@ -4,6 +4,7 @@ Data classes for easy representation of concepts such as a square on the board o
 from dataclasses import dataclass
 from enum import Enum, auto
 
+
 class Player(Enum):
     """
     The two players in a game of chess.
@@ -11,9 +12,8 @@ class Player(Enum):
     WHITE = auto()
     BLACK = auto()
 
-    def opponent(self):
-        if self == Player.WHITE: return Player.BLACK
-        else: return Player.WHITE
+    def opponent(self) -> "Player":
+        return Player.BLACK if self == Player.WHITE else Player.WHITE
 
 
 @dataclass(frozen=True)
@@ -22,7 +22,7 @@ class Square:
     col: int
 
     @classmethod
-    def at(cls, row: int, col: int):
+    def at(cls, row: int, col: int) -> "Square":
         """
         Provides backward compatibility with previous namedtuple implementation.
 
