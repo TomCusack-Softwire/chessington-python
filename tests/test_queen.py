@@ -81,3 +81,39 @@ def test_queen_is_blocked_by_friendly_pieces():
 
     # Assert
     assert Square.at(7, 7) not in moves
+
+
+def test_queen_can_capture_enemy_pieces():
+    # Arrange
+    board = Board.empty()
+    queen = Queen(Player.WHITE)
+    square = Square.at(4, 4)
+    board.set_piece(square, queen)
+
+    enemy = Pawn(Player.BLACK)
+    enemy_square = Square.at(6, 6)
+    board.set_piece(enemy_square, enemy)
+
+    # Act
+    moves = queen.get_available_moves(board)
+
+    # Assert
+    assert enemy_square in moves
+
+
+def test_queen_cannot_capture_friendly_pieces():
+    # Arrange
+    board = Board.empty()
+    queen = Queen(Player.WHITE)
+    square = Square.at(4, 4)
+    board.set_piece(square, queen)
+
+    friendly = Pawn(Player.WHITE)
+    friendly_square = Square.at(6, 6)
+    board.set_piece(friendly_square, friendly)
+
+    # Act
+    moves = queen.get_available_moves(board)
+
+    # Assert
+    assert friendly_square not in moves
