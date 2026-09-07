@@ -76,3 +76,39 @@ def test_knight_cannot_leave_the_board():
     expected_moves = [Square.at(5, 6), Square.at(6, 5)]
     assert len(moves) == len(expected_moves)
     assert set(moves) == set(expected_moves)
+
+
+def test_knight_can_capture_enemy_pieces():
+    # Arrange
+    board = Board.empty()
+    knight = Knight(Player.WHITE)
+    square = Square.at(3, 5)
+    board.set_piece(square, knight)
+
+    enemy = Pawn(Player.BLACK)
+    enemy_square = Square.at(1, 4)
+    board.set_piece(enemy_square, enemy)
+
+    # Act
+    moves = knight.get_available_moves(board)
+
+    # Assert
+    assert enemy_square in moves
+
+
+def test_knight_cannot_capture_friendly_pieces():
+    # Arrange
+    board = Board.empty()
+    knight = Knight(Player.WHITE)
+    square = Square.at(3, 5)
+    board.set_piece(square, knight)
+
+    friendly = Pawn(Player.WHITE)
+    friendly_square = Square.at(1, 4)
+    board.set_piece(friendly_square, friendly)
+
+    # Act
+    moves = knight.get_available_moves(board)
+
+    # Assert
+    assert friendly_square not in moves
